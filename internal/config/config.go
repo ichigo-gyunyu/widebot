@@ -16,6 +16,8 @@ func ParseYAMLConfig(filename string) (c *Config, err error) {
 	if err != nil {
 		return
 	}
+	defer f.Close()
+
 	c = new(Config) // c = &Config{}
 	err = yaml.NewDecoder(f).Decode(c)
 

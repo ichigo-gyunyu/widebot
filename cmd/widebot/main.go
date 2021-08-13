@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/ichigo-gyuunyuu/widebot/internal/commands"
 	"github.com/ichigo-gyuunyuu/widebot/internal/config"
 )
 
@@ -24,6 +25,10 @@ func main() {
 		panic(err)
 	}
 
+	// info about guilds
+	s.Identify.Intents = discordgo.IntentsGuilds | discordgo.IntentsGuildMessages | discordgo.IntentsGuildVoiceStates
+	registerCommands(s, cfg)
+
 	// open a new websocket connection
 	if err = s.Open(); err != nil {
 		panic(err)
@@ -37,4 +42,13 @@ func main() {
 
 	// close when notified
 	s.Close()
+}
+
+func registerCommands(s *discordgo.Session, cfg *config.Config) {
+	commands.SetCommandPrefix(cfg.Prefix)
+
+	commands.RegisterCommand(&commands.CmdPing{})
+
+	// callback for messagecreate events
+	s.AddHandler(commands.HandleMessage)
 }
