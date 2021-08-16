@@ -48,6 +48,7 @@ func registerCommands(s *discordgo.Session, cfg *config.Config) {
 	commands.SetCommandPrefix(cfg.Prefix)
 
 	commands.RegisterCommand(&commands.CmdPing{})
+	commands.RegisterCommand(&commands.CmdPlaysound{PlayingSound: false})
 
 	// callback for messagecreate events
 	s.AddHandler(commands.HandleMessage)
