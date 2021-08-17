@@ -9,6 +9,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/ichigo-gyuunyuu/widebot/internal/commands"
 	"github.com/ichigo-gyuunyuu/widebot/internal/config"
+	"github.com/ichigo-gyuunyuu/widebot/internal/utils"
 )
 
 func main() {
@@ -27,7 +28,9 @@ func main() {
 
 	// info about guilds
 	s.Identify.Intents = discordgo.IntentsGuilds | discordgo.IntentsGuildMessages | discordgo.IntentsGuildVoiceStates
+
 	registerCommands(s, cfg)
+	loadEmotes(s)
 
 	// open a new websocket connection
 	if err = s.Open(); err != nil {
@@ -45,6 +48,7 @@ func main() {
 }
 
 func registerCommands(s *discordgo.Session, cfg *config.Config) {
+	fmt.Println("registering commands")
 	commands.SetCommandPrefix(cfg.Prefix)
 
 	commands.RegisterCommand(&commands.CmdPing{})
@@ -52,4 +56,9 @@ func registerCommands(s *discordgo.Session, cfg *config.Config) {
 
 	// callback for messagecreate events
 	s.AddHandler(commands.HandleMessage)
+}
+
+func loadEmotes(s *discordgo.Session) {
+	fmt.Println("loading emotes")
+	utils.PopulateEmojiMap(s)
 }

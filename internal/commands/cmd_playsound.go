@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/ichigo-gyuunyuu/widebot/internal/sounds"
+	"github.com/ichigo-gyuunyuu/widebot/internal/utils"
 )
 
 type CmdPlaysound struct {
@@ -20,16 +21,16 @@ func (c *CmdPlaysound) Exec(ctx *context) (err error) {
 	}
 
 	var audiobuf [][]byte
+	var tmp string
 
 	// handle args
 	if len(ctx.Args) <= 0 {
-		// pepeg
-		emoji, _ := ctx.Session.State.Emoji("709983111340884008", "876797429788311582")
+		tmp, err = utils.GetEmoteString("pepeg")
 		if err != nil {
 			return
 		}
 		msg := "play what you "
-		msg += emoji.MessageFormat()
+		msg += tmp
 		_, err = ctx.Session.ChannelMessageSend(ctx.Message.ChannelID, msg)
 		return
 	}
@@ -46,12 +47,11 @@ func (c *CmdPlaysound) Exec(ctx *context) (err error) {
 		}
 
 	default:
-		// noidontthinkso
-		emoji, _ := ctx.Session.State.Emoji("709983111340884008", "876797809624490014")
+		tmp, err = utils.GetEmoteString("noidontthinkso")
 		if err != nil {
 			return
 		}
-		msg := emoji.MessageFormat()
+		msg := tmp
 		_, err = ctx.Session.ChannelMessageSend(ctx.Message.ChannelID, msg)
 		return
 	}
@@ -71,12 +71,13 @@ func (c *CmdPlaysound) Exec(ctx *context) (err error) {
 			return
 		}
 	}
-	emoji, err := ctx.Session.State.Emoji("709983111340884008", "877108692988854282")
+	// if user not in any vc
+	tmp, err = utils.GetEmoteString("feelsrainman")
 	if err != nil {
 		return
 	}
 	msg := "who's there to listen to me "
-	msg += emoji.MessageFormat()
+	msg += tmp
 	_, err = ctx.Session.ChannelMessageSend(ctx.Message.ChannelID, msg)
 	return
 }
