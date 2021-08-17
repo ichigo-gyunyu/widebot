@@ -34,19 +34,10 @@ func (c *CmdPlaysound) Exec(ctx *context) (err error) {
 		_, err = ctx.Session.ChannelMessageSend(ctx.Message.ChannelID, msg)
 		return
 	}
-	switch strings.ToLower(ctx.Args[0]) {
-	case "eatit":
-		audiobuf, err = sounds.GetAudioBuffer("./media/eatit.dca")
-		if err != nil {
-			return
-		}
-	case "where":
-		audiobuf, err = sounds.GetAudioBuffer("./media/where.dca")
-		if err != nil {
-			return
-		}
 
-	default:
+	ps := strings.ToLower(ctx.Args[0])
+	audiobuf, err = sounds.GetAudioBuffer(ps)
+	if err != nil {
 		tmp, err = utils.GetEmoteString("noidontthinkso")
 		if err != nil {
 			return

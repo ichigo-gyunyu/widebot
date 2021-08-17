@@ -55,6 +55,9 @@ func GetDiscordEmote(e string) (emote *discordgo.Emoji, err error) {
 
 func GetEmoteString(e string) (emote string, err error) {
 	em, err := dgsession.State.Emoji(emoteMap[e].guildID, emoteMap[e].emojiID)
+	if err != nil {
+		return
+	}
 	emote = em.MessageFormat()
 	return
 }
