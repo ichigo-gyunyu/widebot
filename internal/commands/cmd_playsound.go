@@ -68,11 +68,16 @@ func (c *CmdPlaysound) Exec(ctx *context) (err error) {
 			c.PlayingSound = true
 			err = playsound(ctx, g.ID, vs.ChannelID, audiobuf)
 			c.PlayingSound = false
-			if err != nil {
-				return
-			}
+			return
 		}
 	}
+	emoji, err := ctx.Session.State.Emoji("709983111340884008", "877108692988854282")
+	if err != nil {
+		return
+	}
+	msg := "who's there to listen to me "
+	msg += emoji.MessageFormat()
+	_, err = ctx.Session.ChannelMessageSend(ctx.Message.ChannelID, msg)
 	return
 }
 
